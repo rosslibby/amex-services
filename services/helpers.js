@@ -1,3 +1,5 @@
+const crypto = require('crypto');
+
 async function getEventById(eventId) {
   return fetch(`http://event.com/getEventById/${eventId}`)
     .then((res) => res.json())
