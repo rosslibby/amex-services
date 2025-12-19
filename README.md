@@ -4,6 +4,20 @@ I added the `nodemon` package as a `devDependency` and added a run script: `npm 
 
 > ⚠️ Note: I added server-side validation for event creation to verify that the userId exists before hitting the external API. This was done in case modifying the mock server was not intended. I implemented this in the branch `feat/refactored-stores`, which I merged into `main`.
 
+# Testing
+
+I built a simple test utility `test.js` for creating events. You may specify a number of events to generate.
+
+How to use it:
+
+`node test.js`
+
+This creates one event.
+
+`node test.js 5`
+
+This creates five events.
+
 # Mock service
 
 ## Stores (user, event)
