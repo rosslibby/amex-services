@@ -7,9 +7,10 @@ const { Resilience } = require('./resilience');
 const resilience = new Resilience();
 
 fastify.get('/getUsers', async (request, reply) => {
-    const resp = await fetch('http://event.com/getUsers');
-    const data = await resp.json();
-    reply.send(data); 
+  return fetch('http://event.com/getUsers')
+    .then((res) => res.json())
+    .then((data) => reply.send(data))
+    .catch((err) => { throw new Error(err) });
 });
 
 fastify.post('/addEvent', async (request, reply) => {
@@ -39,7 +40,6 @@ fastify.post('/addEvent', async (request, reply) => {
       request.body.name,
       request.body.details,
     );
-
     return fetch('http://event.com/addEvent', {
       method: 'POST',
       headers: {
@@ -56,9 +56,10 @@ fastify.post('/addEvent', async (request, reply) => {
 });
 
 fastify.get('/getEvents', async (request, reply) => {  
-    const resp = await fetch('http://event.com/getEvents');
-    const data = await resp.json();
-    reply.send(data);
+  return fetch('http://event.com/getEvents')
+    .then((res) => res.json())
+    .then((data) => reply.send(data))
+    .catch((err) => { throw new Error(err) });
 });
 
 fastify.get('/getEventsByUserId/:id', async (request, reply) => {
