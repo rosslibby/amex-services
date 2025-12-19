@@ -1,6 +1,6 @@
 const fastify = require('fastify')({ logger: true });
 const listenMock = require('../mock-server');
-const { getEventById } = require('./helpers');
+const { createEventPayload, getEventById } = require('./helpers');
 
 fastify.get('/getUsers', async (request, reply) => {
     const resp = await fetch('http://event.com/getUsers');
@@ -10,12 +10,18 @@ fastify.get('/getUsers', async (request, reply) => {
 
 fastify.post('/addEvent', async (request, reply) => {
   try {
+    const event = await createEventPayload(
+      request.body.userId,
+      request.body.name,
+      request.body.details,
+    );
+
     const resp = await fetch('http://event.com/addEvent', {
       method: 'POST',
-      body: JSON.stringify({
-        id: new Date().getTime(),
-        ...request.body
-      })
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(event),
     });
     const data = await resp.json();
     reply.send(data);
